@@ -19,12 +19,23 @@ const csrftoken = getCookie('csrftoken');
 
 
 var form = document.getElementById("form")
-var task_create_url = 'http://127.0.0.1:8000/api/task-create/'
 var ourRequest = new XMLHttpRequest()
+var activeItem = null
+var task_create_url = 'http://127.0.0.1:8000/api/task-create/'
+
+
+
 
 
 form.addEventListener("submit", function (e) {
     e.preventDefault()
+
+    if (activeItem != null) {
+        task_create_url = `http://127.0.0.1:8000/api/task-update/${activeItem.id}/`
+        activeItem = null
+    }
+
+
     var task_title = document.getElementById("task-title").value
     ourRequest.open("POST", task_create_url, true)
     ourRequest.setRequestHeader('Content-type', 'application/json')
