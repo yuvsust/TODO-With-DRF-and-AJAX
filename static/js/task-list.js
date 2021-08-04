@@ -1,10 +1,11 @@
 function buildList() {
-    console.log("Opened");
     var ourRequest = new XMLHttpRequest()
     var task_list_wrapper = document.getElementById("list-wrapper")
-    task_list_wrapper.innerHTML = ''
+    //task_list_wrapper.innerHTML = ''
     var tasks = null
     var task_list_url = 'http://127.0.0.1:8000/api/task-list/'
+
+    var list_length_before = document.querySelectorAll('.task-wrapper').length
 
 
     ourRequest.open("GET", task_list_url, true)
@@ -13,6 +14,14 @@ function buildList() {
         tasks = JSON.parse(ourRequest.responseText)
         var task_element = ""
         for (var i in tasks) {
+
+            try {
+                document.getElementById(`data-row-${i}`).remove()
+            } catch(err) {
+
+            }
+
+
             var title_span = `<span class="title">${tasks[i].title}</span>`
             if(tasks[i].completed == true) {
                 title_span = `<strike class="title">${tasks[i].title}</strike>`
@@ -31,6 +40,10 @@ function buildList() {
                 </div>
             `
             task_list_wrapper.innerHTML += task_element
+        }
+
+        if(list_length_before > tasks.length) {
+            document.getElementById(`data-row-0`).remove()
         }
 
         for (var i in tasks) {
