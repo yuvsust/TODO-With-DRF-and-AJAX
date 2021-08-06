@@ -3,5 +3,7 @@
 function updateTask(item) {
     activeItem = item
     document.getElementById("task-title").value = activeItem.title
-    console.log(activeItem);
+
+    // The api call is handled in create-new-task.js file
+    // where update call is separated by `activeItem`
 }
